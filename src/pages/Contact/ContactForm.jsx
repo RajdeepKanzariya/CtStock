@@ -444,7 +444,7 @@ function FieldWrap({ icon, children }) {
 function SocialIcon({ href, children }) {
     const [hover, setHover] = useState(false);
     return (
-        
+        <a
             href={href}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
