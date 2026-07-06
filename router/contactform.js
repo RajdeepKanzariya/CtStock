@@ -45,4 +45,26 @@ router.post("/", (req, res) => {
 
 });
 
+// Get All Messages
+router.get("/", (req, res) => {
+
+    db.query(
+        "SELECT * FROM contact_form ORDER BY id DESC",
+        (err, result) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({
+                    success: false,
+                    message: "Database Error"
+                });
+            }
+
+            res.json(result);
+
+        }
+    );
+
+});
+
 export default router;
