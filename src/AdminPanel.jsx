@@ -241,26 +241,6 @@ export default function AdminPanel() {
                     boxSizing: "border-box"
                 }}
             >
-                <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "0 8px", marginBottom: "30px" }}>
-                    <div
-                        style={{
-                            width: "34px",
-                            height: "34px",
-                            borderRadius: "9px",
-                            background: "#2563EB",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "#fff",
-                            fontWeight: 800,
-                            fontSize: "15px"
-                        }}
-                    >
-                        C
-                    </div>
-                    <span style={{ fontWeight: 800, fontSize: "17px", color: "#0F172A" }}>CtStock</span>
-                </div>
-
                 <p style={{ fontSize: "11px", fontWeight: 700, color: "#94A3B8", letterSpacing: "1px", padding: "0 8px", marginBottom: "10px" }}>
                     MAIN MENU
                 </p>
