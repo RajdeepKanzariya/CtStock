@@ -1,5 +1,7 @@
 import Hero from "./Hero";
 import ContactForm from "./ContactForm"
+import OurClients from "../Home/OurClients";
+import OurTeam from "../About/OurTeam";
 export default function Contact(){
      return (
     
@@ -7,6 +9,8 @@ export default function Contact(){
     
                 <Hero />
                 <ContactForm />
+                <OurTeam />
+                <OurClients />
                 {/*
                     Next Sections
     

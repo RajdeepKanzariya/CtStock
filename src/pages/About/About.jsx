@@ -1,5 +1,6 @@
 import Hero from "./Hero";
 import Counter from "../Home/Counter";
+import OurClients from "../Home/OurClients";
 import WhoWeAre from "./WhoWeAre";
 import  MissionVision from "./MissionVision";
 import WhyChooseUs from "./WhyChooseUs"
@@ -20,6 +21,7 @@ export default function About() {
             <CoreValues />
             <OurTeam />
             <Process />
+            <OurClients />
             
             {/*
                 Next Sections
