@@ -7,7 +7,7 @@ export default function About() {
     const sectionRef = useRef(null);
     const [inView, setInView] = useState(false);
     const navigate = useNavigate();
-    // re-trigger animation every time section enters/leaves viewport
+    
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => setInView(entry.isIntersecting),

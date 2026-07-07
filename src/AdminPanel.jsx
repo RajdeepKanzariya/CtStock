@@ -6,8 +6,7 @@ const MESSAGES_API = "http://localhost:8080/contact-form";
 
 export default function AdminPanel() {
 
-    const [activeTab, setActiveTab] = useState("team"); // "team" | "messages"
-
+    const [activeTab, setActiveTab] = useState("team"); 
     /* ============ TEAM STATE ============ */
     const [members, setMembers] = useState([]);
     const [showForm, setShowForm] = useState(false);
@@ -30,8 +29,8 @@ export default function AdminPanel() {
     /* ============ MESSAGES STATE ============ */
     const [messages, setMessages] = useState([]);
     const [messagesLoading, setMessagesLoading] = useState(false);
-    const [statusFilter, setStatusFilter] = useState("all"); // all | pending | contacted | resolved
-    const [notesDraft, setNotesDraft] = useState({}); // { [messageId]: draftText }
+    const [statusFilter, setStatusFilter] = useState("all");
+    const [notesDraft, setNotesDraft] = useState({}); 
     const [savingId, setSavingId] = useState(null);
 
     useEffect(() => {
@@ -66,7 +65,7 @@ export default function AdminPanel() {
             const data = await res.json();
             setMessages(data);
 
-            // preload notes drafts so textareas show existing notes
+            
             const drafts = {};
             data.forEach((m) => {
                 drafts[m.id] = m.notes || "";
@@ -328,7 +327,7 @@ export default function AdminPanel() {
             {/* ============ MAIN CONTENT ============ */}
             <main style={{ flex: 1, padding: "28px 34px", boxSizing: "border-box" }}>
 
-                {/* Breadcrumb */}
+            {/* Breadcrumb */}
                 <div style={{ fontSize: "13px", color: "#94A3B8", marginBottom: "18px" }}>
                     Home / <span style={{ color: "#0F172A", fontWeight: 600 }}>
                         {activeTab === "team" ? "Team Members" : "Messages"}

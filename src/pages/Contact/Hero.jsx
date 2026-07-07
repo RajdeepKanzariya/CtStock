@@ -236,7 +236,7 @@ export default function Hero() {
                             maxWidth: "620px"
                         }}
                     >
-                        {/* gradient glow frame behind image */}
+                        
                         <div
                             style={{
                                 position: "absolute",
@@ -282,7 +282,7 @@ export default function Hero() {
                                 />
                             ))}
 
-                            {/* subtle top sheen */}
+                            
                             <div
                                 style={{
                                     position: "absolute",

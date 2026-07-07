@@ -16,8 +16,7 @@ export default function CoreValues() {
 
     const EASE = "cubic-bezier(.16,.9,.28,1)";
 
-    // Note: added "Innovation" and "Accountability" myself to round out the
-    // set beyond what was in the reference image.
+    
     const values = [
         {
             title: "Industry Specific",

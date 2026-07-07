@@ -6,7 +6,7 @@ export default function WhoWeAre() {
     const sectionRef = useRef(null);
     const [inView, setInView] = useState(false);
 
-    // re-trigger animation every time section enters/leaves viewport
+    
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => setInView(entry.isIntersecting),
