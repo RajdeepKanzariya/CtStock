@@ -3,6 +3,7 @@ import cors from "cors";
 
 import contactRouter from "./router/contactform.js";
 import teamRouter from "./router/team.js";
+import adminAuthRouter from "./router/adminAuth.js";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.use("/contact-form", contactRouter);
 app.use("/team-member", teamRouter);
+app.use("/admin-auth", adminAuthRouter);
 
 const PORT = 8080;
 

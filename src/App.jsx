@@ -15,6 +15,12 @@ import Contact from "./pages/Contact/Contact";
 // import Enquiry from "./pages/Enquiry/Enquiry";
 
 import AdminPanel from "./AdminPanel";
+import AdminLogin from "./AdminLogin";
+
+function ProtectedAdminRoute({ children }) {
+    const isAdmin = sessionStorage.getItem("isAdmin") === "true";
+    return isAdmin ? children : <Navigate to="/admin" replace />;
+}
 
 function App() {
 
@@ -44,7 +50,15 @@ function App() {
 
                 <Routes>
 
-                    <Route path="/admin" element={<AdminPanel />} />
+                    <Route path="/admin" element={<AdminLogin />} />
+                    <Route
+                        path="/admin/panel"
+                        element={
+                            <ProtectedAdminRoute>
+                                <AdminPanel />
+                            </ProtectedAdminRoute>
+                        }
+                    />
 
                     {/* Home */}
 

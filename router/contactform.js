@@ -45,25 +45,112 @@ router.post("/", (req, res) => {
 
 });
 
-// Get All Messages
+// Get All Messages (optional ?status=pending|contacted|resolved filter)
 router.get("/", (req, res) => {
 
-    db.query(
-        "SELECT * FROM contact_form ORDER BY id DESC",
-        (err, result) => {
+    const { status } = req.query;
 
-            if (err) {
-                console.log(err);
-                return res.status(500).json({
-                    success: false,
-                    message: "Database Error"
-                });
-            }
+    let sql = "SELECT * FROM contact_form";
+    const params = [];
 
-            res.json(result);
+    if (status && ["pending", "contacted", "resolved"].includes(status)) {
+        sql += " WHERE status = ?";
+        params.push(status);
+    }
 
+    sql += " ORDER BY id DESC";
+
+    db.query(sql, params, (err, result) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Database Error"
+            });
         }
-    );
+
+        res.json(result);
+
+    });
+
+});
+
+// Update status / is_called / notes for a message
+router.patch("/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { status, is_called, notes } = req.body;
+
+    const fields = [];
+    const values = [];
+
+    if (status !== undefined) {
+        fields.push("status = ?");
+        values.push(status);
+    }
+
+    if (is_called !== undefined) {
+        fields.push("is_called = ?");
+        values.push(is_called ? 1 : 0);
+    }
+
+    if (notes !== undefined) {
+        fields.push("notes = ?");
+        values.push(notes);
+    }
+
+    if (fields.length === 0) {
+        return res.status(400).json({
+            success: false,
+            message: "Nothing to update"
+        });
+    }
+
+    values.push(id);
+
+    const sql = `UPDATE contact_form SET ${fields.join(", ")} WHERE id = ?`;
+
+    db.query(sql, values, (err, result) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Database Error"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Message updated successfully"
+        });
+
+    });
+
+});
+
+// Delete a message
+router.delete("/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query("DELETE FROM contact_form WHERE id = ?", [id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({
+                success: false,
+                message: "Database Error"
+            });
+        }
+
+        res.json({
+            success: true,
+            message: "Message deleted"
+        });
+
+    });
 
 });
 
