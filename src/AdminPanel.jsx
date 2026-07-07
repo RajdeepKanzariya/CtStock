@@ -32,6 +32,7 @@ export default function AdminPanel() {
     const [statusFilter, setStatusFilter] = useState("all");
     const [notesDraft, setNotesDraft] = useState({}); 
     const [savingId, setSavingId] = useState(null);
+    const [deleteTargetId, setDeleteTargetId] = useState(null); // message pending delete confirmation
 
     useEffect(() => {
         fetchMembers();
@@ -106,13 +107,19 @@ export default function AdminPanel() {
         updateMessage(id, { notes: notesDraft[id] || "" });
     };
 
-    const deleteMessage = async (id) => {
-        if (!window.confirm("Delete this message?")) return;
+    const requestDeleteMessage = (id) => {
+        setDeleteTargetId(id);
+    };
+
+    const confirmDeleteMessage = async () => {
+        if (!deleteTargetId) return;
         try {
-            await fetch(`${MESSAGES_API}/${id}`, { method: "DELETE" });
+            await fetch(`${MESSAGES_API}/${deleteTargetId}`, { method: "DELETE" });
             fetchMessages();
         } catch (err) {
             console.error("Failed to delete message:", err);
+        } finally {
+            setDeleteTargetId(null);
         }
     };
 
@@ -798,7 +805,7 @@ export default function AdminPanel() {
                                                 </button>
 
                                                 <button
-                                                    onClick={() => deleteMessage(msg.id)}
+                                                    onClick={() => requestDeleteMessage(msg.id)}
                                                     style={{
                                                         padding: "8px 14px",
                                                         borderRadius: "8px",
@@ -865,6 +872,95 @@ export default function AdminPanel() {
                     </div>
                 )}
             </main>
+
+            {/* Delete Confirmation Modal */}
+            {deleteTargetId && (
+                <div
+                    style={{
+                        position: "fixed",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "rgba(15,23,42,.5)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        zIndex: 9999
+                    }}
+                >
+                    <div
+                        style={{
+                            background: "#fff",
+                            borderRadius: "16px",
+                            padding: "30px",
+                            width: "360px",
+                            maxWidth: "90%",
+                            textAlign: "center",
+                            boxShadow: "0 25px 60px -15px rgba(0,0,0,.35)"
+                        }}
+                    >
+                        <div
+                            style={{
+                                width: "56px",
+                                height: "56px",
+                                borderRadius: "50%",
+                                background: "#FEE2E2",
+                                color: "#DC2626",
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                margin: "0 auto 16px",
+                                fontSize: "26px"
+                            }}
+                        >
+                            🗑
+                        </div>
+
+                        <h3 style={{ margin: 0, fontSize: "17px", fontWeight: 800, color: "#0F172A" }}>
+                            Delete this message?
+                        </h3>
+                        <p style={{ marginTop: "8px", fontSize: "13.5px", color: "#64748B", lineHeight: 1.6 }}>
+                            This action cannot be undone. The message will be permanently removed.
+                        </p>
+
+                        <div style={{ display: "flex", gap: "10px", marginTop: "22px" }}>
+                            <button
+                                onClick={() => setDeleteTargetId(null)}
+                                style={{
+                                    flex: 1,
+                                    padding: "11px",
+                                    borderRadius: "9px",
+                                    border: "1px solid #E2E8F0",
+                                    background: "#fff",
+                                    color: "#334155",
+                                    fontWeight: 600,
+                                    fontSize: "13.5px",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={confirmDeleteMessage}
+                                style={{
+                                    flex: 1,
+                                    padding: "11px",
+                                    borderRadius: "9px",
+                                    border: "none",
+                                    background: "#DC2626",
+                                    color: "#fff",
+                                    fontWeight: 600,
+                                    fontSize: "13.5px",
+                                    cursor: "pointer"
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
