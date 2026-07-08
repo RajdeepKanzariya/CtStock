@@ -30,7 +30,6 @@ export default function ProductPreview() {
         try {
             const res = await fetch(PRODUCTS_API);
             const data = await res.json();
-            // Only show active products on the public site
             setProducts(data.filter((p) => p.status === "active"));
         } catch (err) {
             console.error("Failed to fetch products:", err);
