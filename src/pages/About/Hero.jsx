@@ -175,6 +175,7 @@ export default function Hero() {
                         </button>
 
                         <button
+                            onClick={() => navigate("/products")}
                             style={{
                                 background: "rgba(255,255,255,.04)",
                                 color: "#E2E8F0",
