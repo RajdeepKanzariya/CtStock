@@ -143,7 +143,7 @@ export default function ProductDetail() {
 
                         {product.demo_link && (
                             <a
-                                href={product.demo_link}
+                                onClick={() => navigate("/enquiry")}
                                 target="_blank"
                                 rel="noreferrer"
                                 style={{
@@ -331,7 +331,7 @@ export default function ProductDetail() {
                 <div style={{ display: "flex", gap: "14px", justifyContent: "center", marginTop: "24px", flexWrap: "wrap" }}>
                     {product.demo_link && (
                         <a
-                            href={product.demo_link}
+                            onClick={() => navigate("/enquiry")}
                             target="_blank"
                             rel="noreferrer"
                             style={{

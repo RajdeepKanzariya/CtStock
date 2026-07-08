@@ -13,7 +13,7 @@ import About from "./pages/About/About";
 // import ProductDetails from "./pages/Products/ProductDetails";
 import Contact from "./pages/Contact/Contact";
 import ProductDetail from "./pages/ProductDetails/productDetail";
-// import Enquiry from "./pages/Enquiry/Enquiry";
+import Enquiry from "./pages/Enquiry/enquiry";
 
 import AdminPanel from "./AdminPanel";
 import AdminLogin from "./AdminLogin";
@@ -97,12 +97,12 @@ function App() {
                         path="/productDetail/:id"
                         element={<ProductDetail />}
                     />
-                    {/*}
+                    
                     <Route
                         path="/enquiry"
                         element={<Enquiry />}
                     />
-                    */}
+                    
 
                 </Routes>
 
