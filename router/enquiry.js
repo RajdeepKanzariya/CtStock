@@ -102,4 +102,59 @@ router.get("/", (req, res) => {
 
 });
 
+/* UPDATE STATUS / IS_CALLED / NOTES */
+router.patch("/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { status, is_called, notes } = req.body;
+
+    const fields = [];
+    const values = [];
+
+    if (status !== undefined) {
+        fields.push("status = ?");
+        values.push(status);
+    }
+
+    if (is_called !== undefined) {
+        fields.push("is_called = ?");
+        values.push(is_called ? 1 : 0);
+    }
+
+    if (notes !== undefined) {
+        fields.push("notes = ?");
+        values.push(notes);
+    }
+
+    if (fields.length === 0) {
+        return res.status(400).json({ success: false, message: "Nothing to update" });
+    }
+
+    values.push(id);
+
+    db.query(`UPDATE enquiries SET ${fields.join(", ")} WHERE id = ?`, values, (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json(err);
+        }
+        res.json({ success: true, message: "Enquiry updated successfully" });
+    });
+
+});
+
+/* DELETE ENQUIRY */
+router.delete("/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query("DELETE FROM enquiries WHERE id = ?", [id], (err) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).json(err);
+        }
+        res.json({ success: true, message: "Enquiry deleted" });
+    });
+
+});
+
 export default router;
