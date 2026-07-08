@@ -79,6 +79,34 @@ export default function ProductDetail() {
     return (
         <div style={{ width: "100%", boxSizing: "border-box" }}>
 
+            {/* Responsive fine-tuning for small screens (keeps existing clamp()-based layout, just adjusts alignment/stacking) */}
+            <style>{`
+                @media (max-width: 640px) {
+                    .pd-hero-inner {
+                        flex-direction: column;
+                        align-items: center !important;
+                        text-align: center;
+                    }
+                    .pd-hero-inner > div:last-child {
+                        text-align: center;
+                    }
+                    .pd-hero-inner p,
+                    .pd-hero-inner h1 {
+                        max-width: 100% !important;
+                    }
+                    .pd-cta-row {
+                        flex-direction: column;
+                        align-items: stretch !important;
+                    }
+                    .pd-cta-row a,
+                    .pd-cta-row button {
+                        width: 100%;
+                        text-align: center;
+                        justify-content: center;
+                    }
+                }
+            `}</style>
+
             {/* ============ TOP HERO — logo, title, desc, usages, features, demo ============ */}
             <section
                 style={{
@@ -89,6 +117,7 @@ export default function ProductDetail() {
                 }}
             >
                 <div
+                    className="pd-hero-inner"
                     style={{
                         maxWidth: "1100px",
                         margin: "0 auto",
@@ -144,8 +173,6 @@ export default function ProductDetail() {
                         {product.demo_link && (
                             <a
                                 onClick={() => navigate("/enquiry")}
-                                target="_blank"
-                                rel="noreferrer"
                                 style={{
                                     display: "inline-flex",
                                     alignItems: "center",
@@ -158,6 +185,7 @@ export default function ProductDetail() {
                                     fontWeight: 700,
                                     fontSize: "14.5px",
                                     textDecoration: "none",
+                                    cursor: "pointer",
                                     boxShadow: `0 12px 24px -10px ${accent}99`
                                 }}
                             >
@@ -173,7 +201,7 @@ export default function ProductDetail() {
                         maxWidth: "1100px",
                         margin: "clamp(36px, 5vw, 56px) auto 0",
                         display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                         gap: "24px"
                     }}
                 >
@@ -328,12 +356,10 @@ export default function ProductDetail() {
                     Get a live demo and see how it fits your business.
                 </p>
 
-                <div style={{ display: "flex", gap: "14px", justifyContent: "center", marginTop: "24px", flexWrap: "wrap" }}>
+                <div className="pd-cta-row" style={{ display: "flex", gap: "14px", justifyContent: "center", marginTop: "24px", flexWrap: "wrap" }}>
                     {product.demo_link && (
                         <a
                             onClick={() => navigate("/enquiry")}
-                            target="_blank"
-                            rel="noreferrer"
                             style={{
                                 background: accent,
                                 color: "#fff",
@@ -342,6 +368,7 @@ export default function ProductDetail() {
                                 fontWeight: 700,
                                 fontSize: "15px",
                                 textDecoration: "none",
+                                cursor: "pointer",
                                 boxShadow: `0 12px 24px -10px ${accent}99`
                             }}
                         >
