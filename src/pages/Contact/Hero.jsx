@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import slider1 from "../../assets/sliderimg1.png";
 import slider2 from "../../assets/sliderimg2.png";
@@ -7,7 +8,7 @@ export default function Hero() {
 
     const images = [slider1, slider2];
     const [current, setCurrent] = useState(0);
-
+    const navigate = useNavigate();
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrent((prev) => (prev + 1) % images.length);
@@ -145,6 +146,7 @@ export default function Hero() {
                     <div style={{ display: "flex", gap: "16px", marginTop: "34px", flexWrap: "wrap" }}>
 
                         <button
+                            onClick={() => navigate("/enquiry")}
                             style={{
                                 background: "linear-gradient(90deg,#2563EB,#3B82F6)",
                                 color: "#fff",
