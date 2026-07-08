@@ -12,6 +12,7 @@ import About from "./pages/About/About";
 // import Products from "./pages/Products/Products";
 // import ProductDetails from "./pages/Products/ProductDetails";
 import Contact from "./pages/Contact/Contact";
+import ProductDetail from "./pages/ProductDetails/productDetail";
 // import Enquiry from "./pages/Enquiry/Enquiry";
 
 import AdminPanel from "./AdminPanel";
@@ -91,6 +92,10 @@ function App() {
                     <Route
                         path="/contact"
                         element={<Contact />}
+                    />
+                    <Route
+                        path="/productDetail/:id"
+                        element={<ProductDetail />}
                     />
                     {/*}
                     <Route

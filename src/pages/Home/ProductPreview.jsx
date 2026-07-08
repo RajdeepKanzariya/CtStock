@@ -39,8 +39,8 @@ export default function ProductPreview() {
         }
     };
 
-    const goToProduct = (slug) => {
-        navigate(`/productDetail/${slug}`);
+    const goToProduct = (id) => {
+        navigate(`/productDetail/${id}`);
     };
 
     const EASE = "cubic-bezier(.16,.9,.28,1)";
@@ -99,7 +99,7 @@ export default function ProductPreview() {
                             delay={0.08 + i * 0.1}
                             inView={inView}
                             ease={EASE}
-                            onClick={() => goToProduct(product.slug)}
+                            onClick={() => goToProduct(product.id)}
                         />
                     ))}
                 </div>
