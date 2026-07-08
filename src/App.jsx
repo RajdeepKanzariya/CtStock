@@ -9,7 +9,7 @@ import Footer from "./layout/Footer/Footer";
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 // import Services from "./pages/Services/Services";
-// import Products from "./pages/Products/Products";
+import Products from "./pages/Products/Products";
 // import ProductDetails from "./pages/Products/ProductDetails";
 import Contact from "./pages/Contact/Contact";
 import ProductDetail from "./pages/ProductDetails/productDetail";
@@ -83,12 +83,12 @@ function App() {
                         path="/products"
                         element={<Products />}
                     />
-
-                    <Route
-                        path="/products/:id"
-                        element={<ProductDetails />}
-                    />
                     */}
+                    <Route
+                        path="/products"
+                        element={<Products />}
+                    />
+                   
                     <Route
                         path="/contact"
                         element={<Contact />}
