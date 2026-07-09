@@ -59,10 +59,10 @@ export default function Footer() {
                     </p>
 
                     <div style={{ display: "flex", gap: "12px", marginTop: "24px" }}>
-                        <SocialIcon href="#"><IconFacebook /></SocialIcon>
-                        <SocialIcon href="#"><IconWhatsapp /></SocialIcon>
-                        <SocialIcon href="#"><IconInstagram /></SocialIcon>
-                        <SocialIcon href="#"><IconYoutube /></SocialIcon>
+                        <SocialIcon href="https://www.facebook.com/Ct-Stock-102287405540163/?ref=pages_you_manage"><IconFacebook /></SocialIcon>
+                        <SocialIcon href="https://api.whatsapp.com/send?phone=918866800045"><IconWhatsapp /></SocialIcon>
+                        <SocialIcon href="https://www.instagram.com/ctstock.in/"><IconInstagram /></SocialIcon>
+                        <SocialIcon href="https://www.youtube.com/channel/UCpa8OHlBb7eipzHaR3vp-Tg"><IconYoutube /></SocialIcon>
                     </div>
 
                     <div style={{ marginTop: "22px", display: "flex", alignItems: "center", gap: "8px" }}>
