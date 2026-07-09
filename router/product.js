@@ -391,7 +391,7 @@ router.patch("/:id/status", (req, res) => {
 =========================== */
 router.patch("/:id/screenshots/reorder", (req, res) => {
 
-    const { order } = req.body; // array of screenshot ids in desired order
+    const { order } = req.body; 
 
     if (!Array.isArray(order)) {
         return res.status(400).json({ success: false, message: "order must be an array" });
@@ -476,8 +476,6 @@ router.delete("/:id", (req, res) => {
                 deleteFileIfExists(product.video);
                 screenshots.forEach((s) => deleteFileIfExists(s.image));
 
-                // product_usages, product_features, product_screenshots rows
-                // are removed automatically via ON DELETE CASCADE
                 db.query("DELETE FROM products WHERE id = ?", [id], (err) => {
 
                     if (err) return res.status(500).json(err);

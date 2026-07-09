@@ -173,7 +173,6 @@ router.put("/categories/:id", (req, res) => {
 
 /* ===========================
         DELETE CATEGORY
-    (offers under it are removed automatically via ON DELETE CASCADE)
 =========================== */
 router.delete("/categories/:id", (req, res) => {
 
@@ -193,7 +192,7 @@ router.delete("/categories/:id", (req, res) => {
 });
 
 /* ===========================
-    GET OFFERS FOR A CATEGORY (by slug) — used by the public Services page
+    GET OFFERS FOR A CATEGORY 
 =========================== */
 router.get("/offers/:categorySlug", (req, res) => {
 
@@ -236,7 +235,7 @@ router.get("/offers/:categorySlug", (req, res) => {
 });
 
 /* ===========================
-    GET OFFERS FOR A CATEGORY (by numeric id) — used by the Admin Panel
+    GET OFFERS FOR A CATEGORY 
 =========================== */
 router.get("/categories/:id/offers", (req, res) => {
 

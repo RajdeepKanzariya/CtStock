@@ -22,15 +22,6 @@ export default function About() {
             <OurTeam />
             <Process />
             <OurClients />
-            
-            {/*
-                Next Sections
-
-                <ProductPreview />
-                
-                <Clients />
-                <Test /> 
-            */}
 
         </>
 

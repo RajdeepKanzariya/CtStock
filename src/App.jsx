@@ -10,7 +10,6 @@ import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
 import Services from "./pages/Services/Services";
 import Products from "./pages/Products/Products";
-// import ProductDetails from "./pages/Products/ProductDetails";
 import Contact from "./pages/Contact/Contact";
 import ProductDetail from "./pages/ProductDetails/productDetail";
 import Enquiry from "./pages/Enquiry/enquiry";
