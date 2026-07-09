@@ -1,9 +1,28 @@
-import { useState } from "react";
-import { services } from "../../../router/servicesData";
+import { useState, useEffect } from "react";
+
+const API_BASE = "http://localhost:8080";
 
 export default function ServiceList({ onSelect }) {
 
     const [hoverId, setHoverId] = useState(null);
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${API_BASE}/services`)
+            .then((res) => res.json())
+            .then((data) => setServices(data))
+            .catch((err) => console.error("Failed to fetch services:", err))
+            .finally(() => setLoading(false));
+    }, []);
+
+    if (loading) {
+        return (
+            <section style={{ padding: "80px 6%", textAlign: "center", color: "#64748B" }}>
+                Loading services...
+            </section>
+        );
+    }
 
     return (
         <section
@@ -74,7 +93,7 @@ export default function ServiceList({ onSelect }) {
                                     transition: "all .25s ease"
                                 }}
                             >
-                                <ServiceIcon id={service.id} />
+                                <ServiceIcon id={service.slug} />
                             </div>
                             <span style={{ fontSize: "15px", fontWeight: 700, color: "#0F172A" }}>
                                 {service.title}

@@ -1,10 +1,31 @@
-import { useState } from "react";
-import { offersByCategory } from "../../../router/servicesData";
+import { useState, useEffect } from "react";
+
+const API_BASE = "http://localhost:8080";
 
 export default function ServiceOffers({ category, onBack }) {
 
     const [hoverIndex, setHoverIndex] = useState(null);
-    const offers = offersByCategory[category?.id] || [];
+    const [offers, setOffers] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        if (!category?.slug) return;
+
+        setLoading(true);
+        fetch(`${API_BASE}/offers/${category.slug}`)
+            .then((res) => res.json())
+            .then((data) => setOffers(data))
+            .catch((err) => console.error("Failed to fetch offers:", err))
+            .finally(() => setLoading(false));
+    }, [category]);
+
+    if (loading) {
+        return (
+            <section style={{ padding: "80px 6%", textAlign: "center", color: "#64748B" }}>
+                Loading solutions...
+            </section>
+        );
+    }
 
     return (
         <section

@@ -1,9 +1,28 @@
-import { useState } from "react";
-import { categories } from "../../../router/servicesData";
+import { useState, useEffect } from "react";
+
+const API_BASE = "http://localhost:8080";
 
 export default function ServiceCategories({ service, onSelect, onBack }) {
 
     const [hoverId, setHoverId] = useState(null);
+    const [categories, setCategories] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        fetch(`${API_BASE}/categories`)
+            .then((res) => res.json())
+            .then((data) => setCategories(data))
+            .catch((err) => console.error("Failed to fetch categories:", err))
+            .finally(() => setLoading(false));
+    }, []);
+
+    if (loading) {
+        return (
+            <section style={{ padding: "80px 6%", textAlign: "center", color: "#64748B" }}>
+                Loading categories...
+            </section>
+        );
+    }
 
     return (
         <section

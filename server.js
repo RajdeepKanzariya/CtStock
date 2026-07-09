@@ -6,6 +6,7 @@ import teamRouter from "./router/team.js";
 import adminAuthRouter from "./router/adminAuth.js";
 import productRouter from "./router/product.js";
 import enquiryRouter from "./router/enquiry.js";
+import servicesRouter from "./router/services.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/team-member", teamRouter);
 app.use("/admin-auth", adminAuthRouter);
 app.use("/product", productRouter);
 app.use("/enquiry", enquiryRouter);
+app.use(servicesRouter);
 
 const PORT = 8080;
 
