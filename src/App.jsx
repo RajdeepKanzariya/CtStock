@@ -15,8 +15,8 @@ import Contact from "./pages/Contact/Contact";
 import ProductDetail from "./pages/ProductDetails/productDetail";
 import Enquiry from "./pages/Enquiry/enquiry";
 
-import AdminPanel from "./AdminPanel";
-import AdminLogin from "./AdminLogin";
+import AdminPanel from "./pages/AdminPanel/AdminPanel";
+import AdminLogin from "./pages/AdminPanel/AdminLogin";
 
 function ProtectedAdminRoute({ children }) {
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
@@ -73,7 +73,7 @@ function App() {
                         path="/about"
                         element={<About />}
                     />
-                    
+
                     <Route
                         path="/services"
                         element={<Services />}
