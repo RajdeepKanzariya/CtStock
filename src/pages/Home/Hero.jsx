@@ -100,12 +100,12 @@ export default function Hero() {
                                 boxShadow: "0 0 8px 2px rgba(56,189,248,.7)"
                             }}
                         />
-                        Empowering Business Since 2012
+                        Empowering Business Since 1996
                     </div>
 
                     <h1
                         style={{
-                            fontSize: "clamp(34px, 4.6vw, 56px)",
+                            fontSize: "clamp(15px, 4.6vw, 35px)",
                             fontWeight: 800,
                             lineHeight: 1.15,
                             letterSpacing: "-1px",
@@ -113,18 +113,19 @@ export default function Hero() {
                             color: "#F8FAFC"
                         }}
                     >
-                        Smart Software
+                        Stock / Inventory Mamangement
                         <br />
-                        for{" "}
+                        {" "}
                         <span
                             style={{
+                                fontSize: "clamp(15px, 4.6vw, 50px)",
                                 background: "linear-gradient(90deg,#60A5FA,#38BDF8)",
                                 WebkitBackgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
                                 backgroundClip: "text"
                             }}
                         >
-                            Smarter Business
+                            Made Simple
                         </span>
                     </h1>
 
@@ -137,9 +138,9 @@ export default function Hero() {
                             maxWidth: "520px"
                         }}
                     >
-                        We provide innovative ERP, CRM, Inventory and Business
-                        solutions to automate daily operations, improve productivity,
-                        and accelerate business growth.
+                        Whether you're a manufacturer, trader, wholesaler, or retailer,
+                        CtStock helps you manage stock efficiently with an easy-to-use 
+                        interface and powerful bissiness features
                     </p>
 
                     <div style={{ display: "flex", gap: "16px", marginTop: "38px", flexWrap: "wrap" }}>

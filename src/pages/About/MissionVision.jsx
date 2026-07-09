@@ -19,7 +19,7 @@ export default function MissionVision() {
     const cards = [
         {
             title: "Our Mission",
-            desc: "To develop reliable, secure and innovative software solutions that empower businesses to achieve sustainable growth.",
+            desc: "To simplify inventory and business management by providing easy-to-use, powerful, and affordable software that improves productivity, accuracy, and business growth.",
             icon: <IconTarget />,
             bg: "linear-gradient(135deg,#DBE7FF,#EAF1FF)",
             iconBg: "linear-gradient(135deg,#2563EB,#3B82F6)",
@@ -27,7 +27,7 @@ export default function MissionVision() {
         },
         {
             title: "Our Vision",
-            desc: "To become one of India's most trusted software companies by delivering world-class digital business solutions.",
+            desc: "To become India's most trusted and innovative stock management software, empowering businesses of every size with simple, smart, and reliable digital solutions.",
             icon: <IconEye />,
             bg: "linear-gradient(135deg,#DCFCE7,#EFFDF3)",
             iconBg: "linear-gradient(135deg,#22C55E,#4ADE80)",
