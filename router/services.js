@@ -25,6 +25,79 @@ router.get("/services", (req, res) => {
 });
 
 /* ===========================
+        ADD SERVICE
+=========================== */
+router.post("/services", (req, res) => {
+
+    const { slug, title, sort_order } = req.body;
+
+    if (!slug || !title) {
+        return res.status(400).json({ success: false, message: "slug and title are required" });
+    }
+
+    db.query(
+        "INSERT INTO services (slug, title, sort_order) VALUES (?, ?, ?)",
+        [slug, title, sort_order || 0],
+        (err, result) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true, id: result.insertId });
+
+        }
+    );
+
+});
+
+/* ===========================
+        UPDATE SERVICE
+=========================== */
+router.put("/services/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { slug, title, sort_order } = req.body;
+
+    db.query(
+        "UPDATE services SET slug = ?, title = ?, sort_order = ? WHERE id = ?",
+        [slug, title, sort_order || 0, id],
+        (err) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true });
+
+        }
+    );
+
+});
+
+/* ===========================
+        DELETE SERVICE
+=========================== */
+router.delete("/services/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query("DELETE FROM services WHERE id = ?", [id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "Database Error" });
+        }
+
+        res.json({ success: true });
+
+    });
+
+});
+
+/* ===========================
         GET ALL CATEGORIES
 =========================== */
 router.get("/categories", (req, res) => {
@@ -46,7 +119,81 @@ router.get("/categories", (req, res) => {
 });
 
 /* ===========================
-    GET OFFERS FOR A CATEGORY (by slug)
+        ADD CATEGORY
+=========================== */
+router.post("/categories", (req, res) => {
+
+    const { slug, title, sort_order } = req.body;
+
+    if (!slug || !title) {
+        return res.status(400).json({ success: false, message: "slug and title are required" });
+    }
+
+    db.query(
+        "INSERT INTO categories (slug, title, sort_order) VALUES (?, ?, ?)",
+        [slug, title, sort_order || 0],
+        (err, result) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true, id: result.insertId });
+
+        }
+    );
+
+});
+
+/* ===========================
+        UPDATE CATEGORY
+=========================== */
+router.put("/categories/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { slug, title, sort_order } = req.body;
+
+    db.query(
+        "UPDATE categories SET slug = ?, title = ?, sort_order = ? WHERE id = ?",
+        [slug, title, sort_order || 0, id],
+        (err) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true });
+
+        }
+    );
+
+});
+
+/* ===========================
+        DELETE CATEGORY
+    (offers under it are removed automatically via ON DELETE CASCADE)
+=========================== */
+router.delete("/categories/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query("DELETE FROM categories WHERE id = ?", [id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "Database Error" });
+        }
+
+        res.json({ success: true });
+
+    });
+
+});
+
+/* ===========================
+    GET OFFERS FOR A CATEGORY (by slug) — used by the public Services page
 =========================== */
 router.get("/offers/:categorySlug", (req, res) => {
 
@@ -85,6 +232,106 @@ router.get("/offers/:categorySlug", (req, res) => {
 
         }
     );
+
+});
+
+/* ===========================
+    GET OFFERS FOR A CATEGORY (by numeric id) — used by the Admin Panel
+=========================== */
+router.get("/categories/:id/offers", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query(
+        "SELECT * FROM offers WHERE category_id = ? ORDER BY sort_order ASC, id ASC",
+        [id],
+        (err, offers) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error" });
+            }
+
+            res.json(offers);
+
+        }
+    );
+
+});
+
+/* ===========================
+        ADD OFFER
+=========================== */
+router.post("/offers", (req, res) => {
+
+    const { category_id, title, domain, description, url, sort_order } = req.body;
+
+    if (!category_id || !title || !url) {
+        return res.status(400).json({ success: false, message: "category_id, title and url are required" });
+    }
+
+    db.query(
+        `INSERT INTO offers (category_id, title, domain, description, url, sort_order)
+         VALUES (?, ?, ?, ?, ?, ?)`,
+        [category_id, title, domain, description, url, sort_order || 0],
+        (err, result) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true, id: result.insertId });
+
+        }
+    );
+
+});
+
+/* ===========================
+        UPDATE OFFER
+=========================== */
+router.put("/offers/:id", (req, res) => {
+
+    const { id } = req.params;
+    const { category_id, title, domain, description, url, sort_order } = req.body;
+
+    db.query(
+        `UPDATE offers SET
+            category_id = ?, title = ?, domain = ?, description = ?, url = ?, sort_order = ?
+         WHERE id = ?`,
+        [category_id, title, domain, description, url, sort_order || 0, id],
+        (err) => {
+
+            if (err) {
+                console.log(err);
+                return res.status(500).json({ success: false, message: "Database Error", sqlMessage: err.sqlMessage });
+            }
+
+            res.json({ success: true });
+
+        }
+    );
+
+});
+
+/* ===========================
+        DELETE OFFER
+=========================== */
+router.delete("/offers/:id", (req, res) => {
+
+    const { id } = req.params;
+
+    db.query("DELETE FROM offers WHERE id = ?", [id], (err) => {
+
+        if (err) {
+            console.log(err);
+            return res.status(500).json({ success: false, message: "Database Error" });
+        }
+
+        res.json({ success: true });
+
+    });
 
 });
 
