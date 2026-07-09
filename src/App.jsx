@@ -8,7 +8,7 @@ import Footer from "./layout/Footer/Footer";
 // Pages
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-// import Services from "./pages/Services/Services";
+import Services from "./pages/Services/Services";
 import Products from "./pages/Products/Products";
 // import ProductDetails from "./pages/Products/ProductDetails";
 import Contact from "./pages/Contact/Contact";
@@ -73,17 +73,13 @@ function App() {
                         path="/about"
                         element={<About />}
                     />
-                     {/*
+                    
                     <Route
                         path="/services"
                         element={<Services />}
                     />
 
-                    <Route
-                        path="/products"
-                        element={<Products />}
-                    />
-                    */}
+                      
                     <Route
                         path="/products"
                         element={<Products />}
