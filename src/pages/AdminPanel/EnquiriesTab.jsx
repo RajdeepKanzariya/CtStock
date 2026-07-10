@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 import { statusStyles } from "./shared";
 
 const ENQUIRIES_API = "http://localhost:8080/enquiry";
@@ -83,6 +84,62 @@ export default function EnquiriesTab() {
         }
     };
 
+    /* ============ EXCEL EXPORT ============ */
+    // Exports whatever is currently visible (respects the active status filter),
+    // so "Pending" tab + Export gives just the pending ones, etc.
+    const handleExportExcel = () => {
+
+        if (enquiries.length === 0) {
+            alert("There are no enquiries to export for the current filter.");
+            return;
+        }
+
+        const rows = enquiries.map((e) => ({
+            "ID": e.id,
+            "Name": e.name || "",
+            "Phone": e.phone || "",
+            "WhatsApp": e.whatsapp || "",
+            "Email": e.email || "",
+            "Company Name": e.company_name || "",
+            "Industry Type": e.industry_type || "",
+            "Address": e.address || "",
+            "Products": (e.products || []).join(", "),
+            "Message": e.message || "",
+            "Status": e.status || "pending",
+            "Called": e.is_called ? "Yes" : "No",
+            "Notes": e.notes || "",
+            "Submitted On": e.created_at ? new Date(e.created_at).toLocaleString() : ""
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(rows);
+
+        // reasonable column widths so it's readable straight out of the download
+        worksheet["!cols"] = [
+            { wch: 6 },  // ID
+            { wch: 20 }, // Name
+            { wch: 14 }, // Phone
+            { wch: 14 }, // WhatsApp
+            { wch: 26 }, // Email
+            { wch: 22 }, // Company Name
+            { wch: 18 }, // Industry Type
+            { wch: 26 }, // Address
+            { wch: 30 }, // Products
+            { wch: 40 }, // Message
+            { wch: 12 }, // Status
+            { wch: 8 },  // Called
+            { wch: 30 }, // Notes
+            { wch: 20 }  // Submitted On
+        ];
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Enquiries");
+
+        const filterLabel = enquiryStatusFilter === "all" ? "all" : enquiryStatusFilter;
+        const dateStamp = new Date().toISOString().slice(0, 10);
+
+        XLSX.writeFile(workbook, `enquiries_${filterLabel}_${dateStamp}.xlsx`);
+    };
+
     return (
         <>
             <div
@@ -93,14 +150,37 @@ export default function EnquiriesTab() {
                     padding: "26px"
                 }}
             >
-                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 800, color: "#0F172A" }}>
-                    Product Enquiries
-                </h2>
-                <p style={{ margin: "4px 0 18px", fontSize: "13.5px", color: "#64748B" }}>
-                    All enquiries submitted through your website's enquiry form.
-                </p>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "14px" }}>
+                    <div>
+                        <h2 style={{ margin: 0, fontSize: "20px", fontWeight: 800, color: "#0F172A" }}>
+                            Product Enquiries
+                        </h2>
+                        <p style={{ margin: "4px 0 0", fontSize: "13.5px", color: "#64748B" }}>
+                            All enquiries submitted through your website's enquiry form.
+                        </p>
+                    </div>
 
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginBottom: "20px" }}>
+                    <button
+                        onClick={handleExportExcel}
+                        style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "8px",
+                            background: "#15803D",
+                            color: "#fff",
+                            border: "none",
+                            padding: "11px 20px",
+                            borderRadius: "9px",
+                            fontWeight: 600,
+                            fontSize: "13.5px",
+                            cursor: "pointer"
+                        }}
+                    >
+                        <IconExcel /> Export to Excel
+                    </button>
+                </div>
+
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "20px", marginBottom: "20px" }}>
                     {["all", "pending", "contacted", "resolved"].map((val) => (
                         <div
                             key={val}
@@ -410,5 +490,16 @@ export default function EnquiriesTab() {
                 </div>
             )}
         </>
+    );
+}
+
+/* ---------- icons ---------- */
+
+function IconExcel() {
+    return (
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+            <path d="M14 2v6h6M8 13l3 5M11 13l-3 5" />
+        </svg>
     );
 }
