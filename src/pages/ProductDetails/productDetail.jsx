@@ -172,7 +172,7 @@ export default function ProductDetail() {
 
                         {product.demo_link && (
                             <a
-                                onClick={() => navigate("/enquiry")}
+                                onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
                                 style={{
                                     display: "inline-flex",
                                     alignItems: "center",

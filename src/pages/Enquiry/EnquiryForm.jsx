@@ -1,14 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const PRODUCT_OPTIONS = [
-    "CtStock", "CtStock_Lite", "CtStock_Gen",
-    "CtStock_Order", "CtStock_Bisc", "CtStock_Pack",
-    "CtStock_Roll", "CtStock_Paper", "CtChequePrint",
-    "CtAddress", "CtCRM", "CtBill",
-    "Other"
-];
+const PRODUCTS_API = "http://localhost:8080/product";
 
 export default function EnquiryForm() {
+
+    const location = useLocation();
 
     const [formData, setFormData] = useState({
         name: "",
@@ -21,10 +18,45 @@ export default function EnquiryForm() {
         message: ""
     });
 
+    const [productOptions, setProductOptions] = useState([]);
+    const [productOptionsLoading, setProductOptionsLoading] = useState(true);
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+
+    // Fetch the live product list from the database
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                const res = await fetch(PRODUCTS_API);
+                const data = await res.json();
+
+                // active products only, plus a manual "Other" option at the end
+                const names = data
+                    .filter((p) => p.status === "active")
+                    .map((p) => p.name);
+
+                setProductOptions([...names, "Other"]);
+            } catch (err) {
+                console.error("Failed to fetch products:", err);
+                setProductOptions(["Other"]);
+            } finally {
+                setProductOptionsLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+
+    useEffect(() => {
+        const preselect = location.state?.productName;
+        if (preselect && productOptions.includes(preselect)) {
+            setProducts((prev) => (prev.includes(preselect) ? prev : [...prev, preselect]));
+        }
+       
+    }, [productOptions, location.state]);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -170,7 +202,12 @@ export default function EnquiryForm() {
                             gap: "12px"
                         }}
                     >
-                        {PRODUCT_OPTIONS.map((product) => (
+                        {productOptionsLoading && (
+                            <p style={{ color: "#94A3B8", fontSize: "14px", gridColumn: "1 / -1" }}>
+                                Loading products...
+                            </p>
+                        )}
+                        {productOptions.map((product) => (
                             <label
                                 key={product}
                                 style={{
