@@ -3,10 +3,10 @@ import { useEffect, useRef, useState } from "react";
 export default function Counter() {
 
     const counters = [
-        { number: 500, suffix: "+", title: "Happy Clients" },
-        { number: 100, suffix: "+", title: "Products" },
-        { number: 10, suffix: "+", title: "Years Experience" },
-        { number: 24, suffix: "/7", title: "Support" }
+        { number: 550, suffix: "+", title: "Happy Clients" },
+        { number: 12, suffix: "+", title: "Products" },
+        { number: 25, suffix: "+", title: "Years Experience" },
+        { number: 10, suffix: "+", title: "Support Team Members" }
     ];
 
     const sectionRef = useRef(null);

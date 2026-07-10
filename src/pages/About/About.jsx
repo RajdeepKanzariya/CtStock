@@ -14,13 +14,13 @@ export default function About() {
         <>
 
             <Hero />
-            <Counter />
             <WhoWeAre />
             <MissionVision />
             <WhyChooseUs />
             <CoreValues />
             <OurTeam />
             <Process />
+            <Counter />
             <OurClients />
 
         </>

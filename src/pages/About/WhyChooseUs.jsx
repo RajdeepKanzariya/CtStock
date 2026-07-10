@@ -18,33 +18,33 @@ export default function WhyChooseUs() {
 
     const items = [
         {
-            title: "Industry Specific",
-            desc: "Software designed around your exact business needs and workflows.",
+            title: "Excellent Customer(Service) Support",
+            desc: "Prompt, reliable, and professional assistance whenever you need it.",
             icon: <IconBriefcase />
         },
         {
-            title: "Experienced Team",
-            desc: "Professional developers with deep expertise across industries.",
+            title: " Customized Reports",
+            desc: " Reports can be tailored to match your organization's specific requirements.",
             icon: <IconUsers />
         },
         {
-            title: "Custom Solutions",
-            desc: "Built to match your workflow, not the other way around.",
+            title: " Flexible Software Customization",
+            desc: "Entry screens, data structures, and workflows can be modified to suit your business processes.",
             icon: <IconPuzzle />
         },
         {
-            title: "Modern Technology",
-            desc: "Latest tech stack for speed, scalability and performance.",
+            title: "Continuous User Guidance",
+            desc: "Ongoing training and expert guidance to help you make the best use of every feature in the software.",
             icon: <IconChip />
         },
         {
-            title: "24/7 Support",
-            desc: "Dedicated support team available whenever you need us.",
+            title: "Simple and User-Friendly Interface",
+            desc: "Designed for easy operation with minimal learning time.",
             icon: <IconHeadset />
         },
         {
-            title: "Secure & Reliable",
-            desc: "Enterprise-grade security you can depend on, every time.",
+            title: " Future-Ready Development",
+            desc: "The software is continuously enhanced with new features and improvements to meet evolving business needs.",
             icon: <IconShield />
         }
     ];

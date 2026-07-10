@@ -100,7 +100,7 @@ export default function Hero() {
                                 boxShadow: "0 0 8px 2px rgba(56,189,248,.7)"
                             }}
                         />
-                        Empowering Business Since 2012
+                        Empowering Business Since 1996
                     </div>
 
                     <h1
@@ -126,9 +126,7 @@ export default function Hero() {
                         </span>
                         <br />
                         <span style={{ fontSize: "clamp(20px, 2.6vw, 30px)", fontWeight: 700, color: "#CBD5E1" }}>
-                            Empowering Businesses Through
-                            <br />
-                            Smart Software Solutions
+                        
                         </span>
                     </h1>
 
@@ -141,9 +139,9 @@ export default function Hero() {
                             maxWidth: "520px"
                         }}
                     >
-                        We build innovative ERP, CRM, Inventory and Business
-                        Management software that helps businesses simplify
-                        operations, improve productivity and accelerate growth.
+                        Since 1996, CtStock has been delivering reliable and industry-focused stock management software, earning the trust of businesses across the ceramic industry. Over the years, our solutions have expanded to serve a wide range of manufacturing sectors, including Polypack, Paper Mills, Laminates, Sanitaryware, Decorative Products, Plastic Industries, Louvers, Wood, Frames, Acrylic, and many more.
+                        <br></br>
+                        Our mission is to simplify inventory management with software that is easy to learn, simple to operate, and powerful enough to meet the needs of businesses of every size. With multi-product capabilities, flexible customization, and continuous innovation, CtStock helps organizations manage their operations efficiently while staying prepared for future growth. We believe that technology should make business easier—not more complicated.
                     </p>
 
                     <div style={{ display: "flex", gap: "16px", marginTop: "38px", flexWrap: "wrap" }}>
