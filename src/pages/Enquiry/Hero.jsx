@@ -147,7 +147,7 @@ export default function Hero() {
 
                     <div style={{ display: "flex", gap: "16px", marginTop: "38px", flexWrap: "wrap" }}>
 
-                        <button
+                        {/* <button
                             style={{
                                 background: "linear-gradient(90deg,#2563EB,#3B82F6)",
                                 color: "#fff",
@@ -170,7 +170,7 @@ export default function Hero() {
                             }}
                         >
                             Get Demo →
-                        </button>
+                        </button> */}
 
                         <button
                             style={{

@@ -146,7 +146,7 @@ export default function Hero() {
 
                     <div style={{ display: "flex", gap: "16px", marginTop: "38px", flexWrap: "wrap" }}>
 
-                        <button
+                        {/* <button
                             onClick={() => navigate("/enquiry")}
                             style={{
                                 background: "linear-gradient(90deg,#2563EB,#3B82F6)",
@@ -170,7 +170,7 @@ export default function Hero() {
                             }}
                         >
                             Get Demo →
-                        </button>
+                        </button> */}
 
                         <button
                             onClick={() => navigate("/products")}
