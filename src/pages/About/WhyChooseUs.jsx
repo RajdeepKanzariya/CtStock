@@ -20,12 +20,12 @@ export default function WhyChooseUs() {
         {
             title: "Excellent Customer(Service) Support",
             desc: "Prompt, reliable, and professional assistance whenever you need it.",
-            icon: <IconBriefcase />
+            icon: <IconHeadset />
         },
         {
             title: " Customized Reports",
             desc: " Reports can be tailored to match your organization's specific requirements.",
-            icon: <IconUsers />
+            icon: <IconFileText />
         },
         {
             title: " Flexible Software Customization",
@@ -35,17 +35,17 @@ export default function WhyChooseUs() {
         {
             title: "Continuous User Guidance",
             desc: "Ongoing training and expert guidance to help you make the best use of every feature in the software.",
-            icon: <IconChip />
+            icon: <IconBook />
         },
         {
             title: "Simple and User-Friendly Interface",
             desc: "Designed for easy operation with minimal learning time.",
-            icon: <IconHeadset />
+            icon: <IconSmile />
         },
         {
             title: " Future-Ready Development",
             desc: "The software is continuously enhanced with new features and improvements to meet evolving business needs.",
-            icon: <IconShield />
+            icon: <IconRocket />
         }
     ];
 
@@ -151,21 +151,20 @@ function FeatureCard({ item, delay, inView, ease }) {
 
 /* ---------- icons ---------- */
 
-function IconBriefcase() {
+function IconHeadset() {
     return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="2" y="7" width="20" height="14" rx="2" />
-            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+            <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3ZM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z" />
         </svg>
     );
 }
 
-function IconUsers() {
+function IconFileText() {
     return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-            <circle cx="9" cy="7" r="4" />
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+            <path d="M14 2v6h6M9 13h6M9 17h6M9 9h1" />
         </svg>
     );
 }
@@ -178,29 +177,31 @@ function IconPuzzle() {
     );
 }
 
-function IconChip() {
+function IconBook() {
     return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="6" y="6" width="12" height="12" rx="2" />
-            <path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2" />
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2Z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7Z" />
         </svg>
     );
 }
 
-function IconHeadset() {
+function IconSmile() {
     return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
-            <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3ZM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3Z" />
+            <circle cx="12" cy="12" r="10" />
+            <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+            <path d="M9 9h.01M15 9h.01" />
         </svg>
     );
 }
 
-function IconShield() {
+function IconRocket() {
     return (
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
-            <path d="m9 12 2 2 4-4" />
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z" />
+            <path d="M12 15c3.5-1.5 6-4.5 7.5-9C21 2 20 1.5 16.5 3c-4.5 1.5-7.5 4-9 7.5-.5 1-1 3-1 3s2 .5 3 1Z" />
+            <path d="M9 12H4s.55-2.23 2-3c1.62-.87 4 0 4 0M12 15v5s2.23-.55 3-2c.87-1.62 0-4 0-4" />
         </svg>
     );
 }
