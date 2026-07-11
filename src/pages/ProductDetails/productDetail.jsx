@@ -169,29 +169,22 @@ export default function ProductDetail() {
                                 {product.short_description}
                             </p>
                         )}
-
-                        {product.demo_link && (
-                            <a
-                                onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
-                                style={{
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    gap: "8px",
-                                    marginTop: "24px",
-                                    background: accent,
-                                    color: "#fff",
-                                    padding: "13px 26px",
-                                    borderRadius: "10px",
-                                    fontWeight: 700,
-                                    fontSize: "14.5px",
-                                    textDecoration: "none",
-                                    cursor: "pointer",
-                                    boxShadow: `0 12px 24px -10px ${accent}99`
-                                }}
-                            >
-                                Get Demo →
-                            </a>
-                        )}
+                    <a
+                        onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
+                        style={{
+                            background: accent,
+                            color: "#fff",
+                            padding: "14px 30px",
+                            borderRadius: "10px",
+                            fontWeight: 700,
+                            fontSize: "15px",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                            boxShadow: `0 12px 24px -10px ${accent}99`
+                        }}
+                    >
+                        Get Demo →
+                    </a>
                     </div>
                 </div>
 
@@ -357,16 +350,19 @@ export default function ProductDetail() {
                 </p>
 
                 <div className="pd-cta-row" style={{ display: "flex", gap: "14px", justifyContent: "center", marginTop: "24px", flexWrap: "wrap" }}>
-                    {product.demo_link && (
-                        <a
-                            onClick={() => navigate("/enquiry")}
+                    <a
+                            onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
                             style={{
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                marginTop: "24px",
                                 background: accent,
                                 color: "#fff",
-                                padding: "14px 30px",
+                                padding: "13px 26px",
                                 borderRadius: "10px",
                                 fontWeight: 700,
-                                fontSize: "15px",
+                                fontSize: "14.5px",
                                 textDecoration: "none",
                                 cursor: "pointer",
                                 boxShadow: `0 12px 24px -10px ${accent}99`
@@ -374,7 +370,6 @@ export default function ProductDetail() {
                         >
                             Get Demo →
                         </a>
-                    )}
 
                     <button
                         onClick={() => navigate("/")}
