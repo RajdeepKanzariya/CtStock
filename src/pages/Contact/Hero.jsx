@@ -4,6 +4,45 @@ import { useNavigate } from "react-router-dom";
 import slider1 from "../../assets/sliderimg1.png";
 import slider2 from "../../assets/sliderimg2.png";
 
+const THEME = {
+    background: "#FFFFFF",
+    glowColor1: "rgba(37,99,235,.14)",
+    glowColor2: "rgba(14,165,233,.10)",
+
+    badgeBg: "rgba(37,99,235,.08)",
+    badgeBorder: "rgba(37,99,235,.25)",
+    badgeText: "#2563EB",
+    badgeDot: "#2563EB",
+    badgeDotGlow: "rgba(37,99,235,.5)",
+
+    headingText: "#0F172A",
+    headingGradientFrom: "#2563EB",
+    headingGradientTo: "#38BDF8",
+    subHeadingText: "#334155",
+
+    paragraphText: "#475569",
+    contactInfoText: "#334155",
+    contactIconColor: "#2563EB",
+
+    primaryBtnBg: "linear-gradient(90deg,#2563EB,#3B82F6)",
+    primaryBtnText: "#FFFFFF",
+    primaryBtnShadow: "rgba(37,99,235,.5)",
+    primaryBtnShadowHover: "rgba(37,99,235,.6)",
+
+    secondaryBtnBg: "rgba(15,23,42,.03)",
+    secondaryBtnBgHover: "rgba(15,23,42,.06)",
+    secondaryBtnText: "#334155",
+    secondaryBtnBorder: "rgba(15,23,42,.15)",
+
+    sliderGlow: "linear-gradient(135deg,#2563EB,#38BDF8)",
+    sliderBorder: "rgba(15,23,42,.1)",
+    sliderShadow: "rgba(15,23,42,.25)",
+    sliderSheen: "linear-gradient(180deg, rgba(255,255,255,.35), transparent 30%)",
+
+    dotActive: "linear-gradient(90deg,#3B82F6,#38BDF8)",
+    dotInactive: "rgba(15,23,42,.2)"
+};
+
 export default function Hero() {
 
     const images = [slider1, slider2];
@@ -22,8 +61,7 @@ export default function Hero() {
                 position: "relative",
                 width: "100%",
                 minHeight: "calc(100vh - 78px)",
-                background:
-                    "radial-gradient(circle at 15% 20%, rgba(37,99,235,.25), transparent 45%), radial-gradient(circle at 85% 80%, rgba(56,189,248,.18), transparent 50%), linear-gradient(160deg, #0B1120 0%, #111A2E 55%, #0B1120 100%)",
+                background: THEME.background,
                 overflow: "hidden",
                 display: "flex",
                 alignItems: "center",
@@ -40,7 +78,7 @@ export default function Hero() {
                     width: "380px",
                     height: "380px",
                     borderRadius: "50%",
-                    background: "rgba(37,99,235,.25)",
+                    background: THEME.glowColor1,
                     filter: "blur(90px)",
                     pointerEvents: "none"
                 }}
@@ -53,7 +91,7 @@ export default function Hero() {
                     width: "320px",
                     height: "320px",
                     borderRadius: "50%",
-                    background: "rgba(14,165,233,.18)",
+                    background: THEME.glowColor2,
                     filter: "blur(100px)",
                     pointerEvents: "none"
                 }}
@@ -73,16 +111,16 @@ export default function Hero() {
                 }}
             >
                 {/* Left Side */}
-                <div style={{ flex: "1 1 420px", minWidth: "320px", color: "#fff" }}>
+                <div style={{ flex: "1 1 420px", minWidth: "320px", color: THEME.headingText }}>
 
                     <div
                         style={{
                             display: "inline-flex",
                             alignItems: "center",
                             gap: "8px",
-                            background: "rgba(37,99,235,.12)",
-                            border: "1px solid rgba(96,165,250,.35)",
-                            color: "#93C5FD",
+                            background: THEME.badgeBg,
+                            border: `1px solid ${THEME.badgeBorder}`,
+                            color: THEME.badgeText,
                             padding: "7px 16px",
                             borderRadius: "999px",
                             fontSize: "13px",
@@ -96,8 +134,8 @@ export default function Hero() {
                                 width: "7px",
                                 height: "7px",
                                 borderRadius: "50%",
-                                background: "#38BDF8",
-                                boxShadow: "0 0 8px 2px rgba(56,189,248,.7)"
+                                background: THEME.badgeDot,
+                                boxShadow: `0 0 8px 2px ${THEME.badgeDotGlow}`
                             }}
                         />
                         We'd Love to Hear From You
@@ -110,13 +148,13 @@ export default function Hero() {
                             lineHeight: 1.15,
                             letterSpacing: "-1px",
                             margin: 0,
-                            color: "#F8FAFC"
+                            color: THEME.headingText
                         }}
                     >
                         Contact{" "}
                         <span
                             style={{
-                                background: "linear-gradient(90deg,#60A5FA,#38BDF8)",
+                                background: `linear-gradient(90deg,${THEME.headingGradientFrom},${THEME.headingGradientTo})`,
                                 WebkitBackgroundClip: "text",
                                 WebkitTextFillColor: "transparent",
                                 backgroundClip: "text"
@@ -125,7 +163,7 @@ export default function Hero() {
                             CtStock
                         </span>
                         <br />
-                        <span style={{ fontSize: "clamp(20px, 2.6vw, 30px)", fontWeight: 700, color: "#CBD5E1" }}>
+                        <span style={{ fontSize: "clamp(20px, 2.6vw, 30px)", fontWeight: 700, color: THEME.subHeadingText }}>
                             Let's Build Something Amazing Together
                         </span>
                     </h1>
@@ -133,7 +171,7 @@ export default function Hero() {
                     <p
                         style={{
                             marginTop: "24px",
-                            color: "#94A3B8",
+                            color: THEME.paragraphText,
                             fontSize: "clamp(15px, 1.4vw, 18px)",
                             lineHeight: 1.85,
                             maxWidth: "480px"
@@ -174,9 +212,9 @@ export default function Hero() {
                         <button
                             onClick={() => navigate("/products")}
                             style={{
-                                background: "rgba(255,255,255,.04)",
-                                color: "#E2E8F0",
-                                border: "1px solid rgba(148,163,184,.35)",
+                                background: THEME.secondaryBtnBg,
+                                color: THEME.secondaryBtnText,
+                                border: `1px solid ${THEME.secondaryBtnBorder}`,
                                 padding: "15px 30px",
                                 borderRadius: "10px",
                                 cursor: "pointer",
@@ -185,11 +223,11 @@ export default function Hero() {
                                 transition: "background .25s ease, transform .25s ease"
                             }}
                             onMouseEnter={(e) => {
-                                e.currentTarget.style.background = "rgba(255,255,255,.09)";
+                                e.currentTarget.style.background = THEME.secondaryBtnBgHover;
                                 e.currentTarget.style.transform = "translateY(-3px)";
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.background = "rgba(255,255,255,.04)";
+                                e.currentTarget.style.background = THEME.secondaryBtnBg;
                                 e.currentTarget.style.transform = "translateY(0)";
                             }}
                         >
@@ -203,7 +241,7 @@ export default function Hero() {
 
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <IconPhone />
-                            <span style={{ color: "#CBD5E1", fontSize: "13.5px", lineHeight: 1.6 }}>
+                            <span style={{ color: THEME.contactInfoText, fontSize: "13.5px", lineHeight: 1.6 }}>
                                 +91 88668 00045
                                 <br />
                                 +91 75672 00045
@@ -212,14 +250,14 @@ export default function Hero() {
 
                         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                             <IconMail />
-                            <span style={{ color: "#CBD5E1", fontSize: "13.5px" }}>
+                            <span style={{ color: THEME.contactInfoText, fontSize: "13.5px" }}>
                                 dalsaniyacommercio@gmail.com
                             </span>
                         </div>
 
                         <div style={{ display: "flex", alignItems: "flex-start", gap: "10px" }}>
                             <span style={{ marginTop: "2px" }}><IconPin /></span>
-                            <span style={{ color: "#CBD5E1", fontSize: "13.5px", lineHeight: 1.6 }}>
+                            <span style={{ color: THEME.contactInfoText, fontSize: "13.5px", lineHeight: 1.6 }}>
                                 428 Star Arcade, Opp. Sky Mall,
                                 <br />
                                 Sanala Road, Morbi, Gujarat, India 363641
@@ -245,7 +283,7 @@ export default function Hero() {
                                 position: "absolute",
                                 inset: "-14px",
                                 borderRadius: "26px",
-                                background: "linear-gradient(135deg,#2563EB,#38BDF8)",
+                                background: THEME.sliderGlow,
                                 opacity: 0.35,
                                 filter: "blur(26px)",
                                 zIndex: 0
@@ -259,8 +297,8 @@ export default function Hero() {
                                 aspectRatio: "4 / 3",
                                 borderRadius: "20px",
                                 overflow: "hidden",
-                                border: "1px solid rgba(148,163,184,.25)",
-                                boxShadow: "0 30px 70px -20px rgba(0,0,0,.65)",
+                                border: `1px solid ${THEME.sliderBorder}`,
+                                boxShadow: `0 30px 70px -20px ${THEME.sliderShadow}`,
                                 zIndex: 1
                             }}
                         >
@@ -290,7 +328,7 @@ export default function Hero() {
                                 style={{
                                     position: "absolute",
                                     inset: 0,
-                                    background: "linear-gradient(180deg, rgba(255,255,255,.06), transparent 30%)",
+                                    background: THEME.sliderSheen,
                                     pointerEvents: "none"
                                 }}
                             />
@@ -317,8 +355,8 @@ export default function Hero() {
                                             borderRadius: "50px",
                                             background:
                                                 current === index
-                                                    ? "linear-gradient(90deg,#3B82F6,#38BDF8)"
-                                                    : "rgba(255,255,255,.45)",
+                                                    ? THEME.dotActive
+                                                    : THEME.dotInactive,
                                             cursor: "pointer",
                                             transition: ".35s"
                                         }}
@@ -337,7 +375,7 @@ export default function Hero() {
 
 function IconPhone() {
     return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={THEME.contactIconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.68 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.32 1.85.55 2.81.68A2 2 0 0 1 22 16.92Z" />
         </svg>
     );
@@ -345,7 +383,7 @@ function IconPhone() {
 
 function IconMail() {
     return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={THEME.contactIconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2" />
             <path d="m22 6-10 7L2 6" />
         </svg>
@@ -354,7 +392,7 @@ function IconMail() {
 
 function IconPin() {
     return (
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#60A5FA" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={THEME.contactIconColor} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
             <circle cx="12" cy="10" r="3" />
         </svg>
