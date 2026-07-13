@@ -4,6 +4,7 @@ import AboutPreview from "./AboutPreview";
 import ContactPreview from "./ContactPreview";
 import OurClients from "./OurClients";
 import ProductPreview from "./ProductPreview";
+import DownloadSection from "./DownloadSection";
 // import Test from "./Test";
 
 export default function Home() {
@@ -17,8 +18,9 @@ export default function Home() {
             <ProductPreview />
             <AboutPreview />
             <ContactPreview />
-             <Counter/>
+            <Counter/>
             <OurClients />
+            <DownloadSection />
 
             {/*
                 Next Sections
