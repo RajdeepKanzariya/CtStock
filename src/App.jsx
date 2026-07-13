@@ -16,8 +16,17 @@ import Enquiry from "./pages/Enquiry/enquiry";
 
 import AdminPanel from "./pages/AdminPanel/AdminPanel";
 import AdminLogin from "./pages/AdminPanel/AdminLogin";
+import AdminUserPanel from "./pages/AdminPanel/AdminUserPanel";
 
 function ProtectedAdminRoute({ children }) {
+    const isAdmin = sessionStorage.getItem("isAdmin") === "true";
+    const role = sessionStorage.getItem("adminRole");
+    if (!isAdmin) return <Navigate to="/admin" replace />;
+    if (role === "user") return <Navigate to="/admin/user-panel" replace />;
+    return children;
+}
+
+function ProtectedUserRoute({ children }) {
     const isAdmin = sessionStorage.getItem("isAdmin") === "true";
     return isAdmin ? children : <Navigate to="/admin" replace />;
 }
@@ -57,6 +66,14 @@ function App() {
                             <ProtectedAdminRoute>
                                 <AdminPanel />
                             </ProtectedAdminRoute>
+                        }
+                    />
+                    <Route
+                        path="/admin/user-panel"
+                        element={
+                            <ProtectedUserRoute>
+                                <AdminUserPanel />
+                            </ProtectedUserRoute>
                         }
                     />
 

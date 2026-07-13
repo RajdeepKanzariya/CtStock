@@ -14,7 +14,7 @@ router.post("/login", (req, res) => {
         });
     }
 
-    const sql = "SELECT id, name, email, password FROM admin_users WHERE email = ?";
+    const sql = "SELECT id, name, email, password, role FROM admin_users WHERE email = ?";
 
     db.query(sql, [email], (err, result) => {
 
@@ -48,7 +48,8 @@ router.post("/login", (req, res) => {
             admin: {
                 id: admin.id,
                 name: admin.name,
-                email: admin.email
+                email: admin.email,
+                role: admin.role
             }
         });
 

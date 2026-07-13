@@ -38,8 +38,13 @@ export default function AdminLogin() {
 
             sessionStorage.setItem("isAdmin", "true");
             sessionStorage.setItem("adminName", result.admin.name);
+            sessionStorage.setItem("adminRole", result.admin.role);
 
-            navigate("/admin/panel");
+            if (result.admin.role === "user") {
+                navigate("/admin/user-panel");
+            } else {
+                navigate("/admin/panel");
+            }
 
         } catch (err) {
             console.error(err);
