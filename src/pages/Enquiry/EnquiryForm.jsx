@@ -15,6 +15,7 @@ export default function EnquiryForm() {
         company_name: "",
         industry_type: "",
         address: "",
+        state: "",
         message: ""
     });
 
@@ -98,7 +99,7 @@ export default function EnquiryForm() {
             setSuccess("Enquiry submitted successfully!");
             setFormData({
                 name: "", phone: "", whatsapp: "", email: "",
-                company_name: "", industry_type: "", address: "", message: ""
+                company_name: "", industry_type: "", address: "", state: "", message: ""
             });
             setProducts([]);
 
@@ -189,6 +190,57 @@ export default function EnquiryForm() {
                     onChange={handleChange}
                     style={inputStyle}
                 />
+
+                <input
+                    list="state-options"
+                    type="text"
+                    name="state"
+                    placeholder="State (select or type)"
+                    value={formData.state}
+                    onChange={handleChange}
+                    style={inputStyle}
+                    autoComplete="off"
+                />
+                <datalist id="state-options">
+                    <option value="None" />
+                    <option value="Andhra Pradesh" />
+                    <option value="Arunachal Pradesh" />
+                    <option value="Assam" />
+                    <option value="Bihar" />
+                    <option value="Chhattisgarh" />
+                    <option value="Goa" />
+                    <option value="Gujarat" />
+                    <option value="Haryana" />
+                    <option value="Himachal Pradesh" />
+                    <option value="Jharkhand" />
+                    <option value="Karnataka" />
+                    <option value="Kerala" />
+                    <option value="Madhya Pradesh" />
+                    <option value="Maharashtra" />
+                    <option value="Manipur" />
+                    <option value="Meghalaya" />
+                    <option value="Mizoram" />
+                    <option value="Nagaland" />
+                    <option value="Odisha" />
+                    <option value="Punjab" />
+                    <option value="Rajasthan" />
+                    <option value="Sikkim" />
+                    <option value="Tamil Nadu" />
+                    <option value="Telangana" />
+                    <option value="Tripura" />
+                    <option value="Uttar Pradesh" />
+                    <option value="Uttarakhand" />
+                    <option value="West Bengal" />
+                    <option value="Andaman and Nicobar Islands" />
+                    <option value="Chandigarh" />
+                    <option value="Dadra and Nagar Haveli and Daman and Diu" />
+                    <option value="Delhi" />
+                    <option value="Jammu and Kashmir" />
+                    <option value="Ladakh" />
+                    <option value="Lakshadweep" />
+                    <option value="Puducherry" />
+                    <option value="Out of India" />
+                </datalist>
 
                 <div>
                     <p style={{ fontWeight: 700, marginBottom: "12px", color: "#1F2937" }}>

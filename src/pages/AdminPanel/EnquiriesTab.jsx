@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import * as XLSX from "xlsx";
-import { statusStyles } from "./shared";
+import { statusStyles, thStyle, tdStyle, menuItemStyle, IconDots, IconSearch } from "./shared";
 
 const ENQUIRIES_API = "http://localhost:8080/enquiry";
 
@@ -9,9 +9,13 @@ export default function EnquiriesTab() {
     const [enquiries, setEnquiries] = useState([]);
     const [enquiriesLoading, setEnquiriesLoading] = useState(false);
     const [enquiryStatusFilter, setEnquiryStatusFilter] = useState("all");
+    const [enquiryStateFilter, setEnquiryStateFilter] = useState("all");
+    const [enquirySearch, setEnquirySearch] = useState("");
     const [enquiryNotesDraft, setEnquiryNotesDraft] = useState({});
     const [enquirySavingId, setEnquirySavingId] = useState(null);
     const [enquiryDeleteTargetId, setEnquiryDeleteTargetId] = useState(null);
+    const [expandedId, setExpandedId] = useState(null);
+    const [openMenuId, setOpenMenuId] = useState(null);
 
     useEffect(() => {
         fetchEnquiries();
@@ -62,6 +66,7 @@ export default function EnquiriesTab() {
 
     const toggleEnquiryCalled = (id, current) => {
         updateEnquiry(id, { is_called: current ? 0 : 1 });
+        setOpenMenuId(null);
     };
 
     const saveEnquiryNotes = (id) => {
@@ -70,6 +75,7 @@ export default function EnquiriesTab() {
 
     const requestDeleteEnquiry = (id) => {
         setEnquiryDeleteTargetId(id);
+        setOpenMenuId(null);
     };
 
     const confirmDeleteEnquiry = async () => {
@@ -84,17 +90,38 @@ export default function EnquiriesTab() {
         }
     };
 
+    // Unique, sorted list of states present in the data, for the state filter dropdown
+    const availableStates = Array.from(
+        new Set(enquiries.map((e) => e.state).filter(Boolean))
+    ).sort();
+
+    const filteredEnquiries = enquiries.filter((e) => {
+        const q = enquirySearch.toLowerCase();
+
+        const matchesSearch =
+            (e.name || "").toLowerCase().includes(q) ||
+            (e.email || "").toLowerCase().includes(q) ||
+            (e.phone || "").toLowerCase().includes(q) ||
+            (e.company_name || "").toLowerCase().includes(q) ||
+            (e.industry_type || "").toLowerCase().includes(q) ||
+            (e.state || "").toLowerCase().includes(q) ||
+            (e.address || "").toLowerCase().includes(q);
+
+        const matchesState =
+            enquiryStateFilter === "all" || (e.state || "") === enquiryStateFilter;
+
+        return matchesSearch && matchesState;
+    });
+
     /* ============ EXCEL EXPORT ============ */
-    // Exports whatever is currently visible (respects the active status filter),
-    // so "Pending" tab + Export gives just the pending ones, etc.
     const handleExportExcel = () => {
 
-        if (enquiries.length === 0) {
-            alert("There are no enquiries to export for the current filter.");
+        if (filteredEnquiries.length === 0) {
+            alert("There are no enquiries to export for the current filter/search.");
             return;
         }
 
-        const rows = enquiries.map((e) => ({
+        const rows = filteredEnquiries.map((e) => ({
             "ID": e.id,
             "Name": e.name || "",
             "Phone": e.phone || "",
@@ -103,6 +130,7 @@ export default function EnquiriesTab() {
             "Company Name": e.company_name || "",
             "Industry Type": e.industry_type || "",
             "Address": e.address || "",
+            "State": e.state || "",
             "Products": (e.products || []).join(", "),
             "Message": e.message || "",
             "Status": e.status || "pending",
@@ -113,7 +141,6 @@ export default function EnquiriesTab() {
 
         const worksheet = XLSX.utils.json_to_sheet(rows);
 
-        // reasonable column widths so it's readable straight out of the download
         worksheet["!cols"] = [
             { wch: 6 },  // ID
             { wch: 20 }, // Name
@@ -123,6 +150,7 @@ export default function EnquiriesTab() {
             { wch: 22 }, // Company Name
             { wch: 18 }, // Industry Type
             { wch: 26 }, // Address
+            { wch: 20 }, // State
             { wch: 30 }, // Products
             { wch: 40 }, // Message
             { wch: 12 }, // Status
@@ -180,7 +208,7 @@ export default function EnquiriesTab() {
                     </button>
                 </div>
 
-                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "20px", marginBottom: "20px" }}>
+                <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", marginTop: "20px" }}>
                     {["all", "pending", "contacted", "resolved"].map((val) => (
                         <div
                             key={val}
@@ -202,201 +230,318 @@ export default function EnquiriesTab() {
                     ))}
                 </div>
 
+                <div style={{ display: "flex", gap: "12px", flexWrap: "wrap", marginTop: "16px", marginBottom: "10px" }}>
+                    <div style={{ position: "relative", flex: "1 1 300px", maxWidth: "360px" }}>
+                        <span style={{ position: "absolute", left: "14px", top: "50%", transform: "translateY(-50%)", color: "#94A3B8" }}>
+                            <IconSearch />
+                        </span>
+                        <input
+                            placeholder="Search by name, email, phone, company, address..."
+                            value={enquirySearch}
+                            onChange={(e) => setEnquirySearch(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "11px 14px 11px 40px",
+                                borderRadius: "9px",
+                                border: "1px solid #E2E8F0",
+                                fontSize: "13.5px",
+                                outline: "none",
+                                boxSizing: "border-box"
+                            }}
+                        />
+                    </div>
+
+                    <select
+                        value={enquiryStateFilter}
+                        onChange={(e) => setEnquiryStateFilter(e.target.value)}
+                        style={{
+                            padding: "11px 14px",
+                            borderRadius: "9px",
+                            border: "1px solid #E2E8F0",
+                            fontSize: "13.5px",
+                            outline: "none",
+                            background: "#fff",
+                            color: "#334155",
+                            cursor: "pointer",
+                            minWidth: "180px"
+                        }}
+                    >
+                        <option value="all">All States</option>
+                        {availableStates.map((s) => (
+                            <option key={s} value={s}>{s}</option>
+                        ))}
+                    </select>
+                </div>
+
                 {enquiriesLoading ? (
-                    <p style={{ color: "#64748B" }}>Loading enquiries...</p>
-                ) : enquiries.length === 0 ? (
-                    <p style={{ color: "#64748B" }}>No enquiries found.</p>
+                    <p style={{ color: "#64748B", marginTop: "14px" }}>Loading enquiries...</p>
+                ) : filteredEnquiries.length === 0 ? (
+                    <p style={{ color: "#64748B", marginTop: "14px" }}>No enquiries found.</p>
                 ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
-                        {enquiries.map((enq) => {
-                            const status = enq.status || "pending";
-                            const badge = statusStyles[status] || statusStyles.pending;
+                    <div style={{ marginTop: "6px" }}>
+                        <table width="100%" style={{ borderCollapse: "collapse", fontSize: "13.5px", tableLayout: "fixed" }}>
+                            <colgroup>
+                                <col style={{ width: "20%" }} />
+                                <col style={{ width: "24%" }} />
+                                <col style={{ width: "20%" }} />
+                                <col style={{ width: "14%" }} />
+                                <col style={{ width: "12%" }} />
+                                <col style={{ width: "10%" }} />
+                            </colgroup>
+                            <thead>
+                                <tr style={{ textAlign: "left" }}>
+                                    <th style={thStyle}>NAME</th>
+                                    <th style={thStyle}>CONTACT</th>
+                                    <th style={thStyle}>PRODUCTS</th>
+                                    <th style={thStyle}>STATUS</th>
+                                    <th style={thStyle}>DATE</th>
+                                    <th style={thStyle}>ACTIONS</th>
+                                </tr>
+                            </thead>
 
-                            return (
-                                <div
-                                    key={enq.id}
-                                    style={{
-                                        background: "#F8FAFC",
-                                        border: "1px solid #EAECEF",
-                                        borderRadius: "12px",
-                                        padding: "18px"
-                                    }}
-                                >
-                                    <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
-                                        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-                                            <strong style={{ color: "#0F172A", fontSize: "15px" }}>{enq.name}</strong>
-                                            <span
-                                                style={{
-                                                    background: badge.bg,
-                                                    color: badge.color,
-                                                    fontSize: "11.5px",
-                                                    fontWeight: 700,
-                                                    padding: "3px 10px",
-                                                    borderRadius: "999px"
-                                                }}
-                                            >
-                                                {badge.label}
-                                            </span>
-                                            {enq.is_called ? (
-                                                <span style={{ fontSize: "11.5px", fontWeight: 700, color: "#15803D" }}>
-                                                    📞 Called
-                                                </span>
-                                            ) : (
-                                                <span style={{ fontSize: "11.5px", fontWeight: 700, color: "#94A3B8" }}>
-                                                    📞 Not Called
-                                                </span>
+                            <tbody>
+                                {filteredEnquiries.map((enq) => {
+                                    const status = enq.status || "pending";
+                                    const badge = statusStyles[status] || statusStyles.pending;
+                                    const isExpanded = expandedId === enq.id;
+                                    const isMenuOpen = openMenuId === enq.id;
+
+                                    return (
+                                        <>
+                                            <tr key={enq.id} style={{ borderTop: "1px solid #F1F5F9" }}>
+                                                <td style={{ ...tdStyle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                    <strong style={{ color: "#0F172A" }}>{enq.name}</strong>
+                                                    {enq.is_called ? (
+                                                        <div style={{ fontSize: "11px", color: "#15803D", marginTop: "2px" }}>📞 Called</div>
+                                                    ) : (
+                                                        <div style={{ fontSize: "11px", color: "#94A3B8", marginTop: "2px" }}>📞 Not Called</div>
+                                                    )}
+                                                </td>
+                                                <td style={{ ...tdStyle, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                                    <div style={{ overflow: "hidden", textOverflow: "ellipsis" }}>{enq.email}</div>
+                                                    <div style={{ color: "#94A3B8", fontSize: "12.5px" }}>{enq.phone}</div>
+                                                </td>
+                                                <td style={tdStyle}>
+                                                    {enq.products && enq.products.length > 0 ? (
+                                                        <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
+                                                            {enq.products.slice(0, 2).map((p) => (
+                                                                <span
+                                                                    key={p}
+                                                                    style={{
+                                                                        background: "#DBEAFE",
+                                                                        color: "#1D4ED8",
+                                                                        fontSize: "11px",
+                                                                        fontWeight: 700,
+                                                                        padding: "2px 8px",
+                                                                        borderRadius: "999px",
+                                                                        whiteSpace: "nowrap"
+                                                                    }}
+                                                                >
+                                                                    {p}
+                                                                </span>
+                                                            ))}
+                                                            {enq.products.length > 2 && (
+                                                                <span style={{ fontSize: "11px", color: "#94A3B8", fontWeight: 600 }}>
+                                                                    +{enq.products.length - 2}
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    ) : "—"}
+                                                </td>
+                                                <td style={tdStyle}>
+                                                    <select
+                                                        value={status}
+                                                        onChange={(e) => handleEnquiryStatusChange(enq.id, e.target.value)}
+                                                        style={{
+                                                            width: "100%",
+                                                            padding: "6px 8px",
+                                                            borderRadius: "8px",
+                                                            border: "1px solid #E2E8F0",
+                                                            fontSize: "12px",
+                                                            fontWeight: 600,
+                                                            cursor: "pointer",
+                                                            background: badge.bg,
+                                                            color: badge.color
+                                                        }}
+                                                    >
+                                                        <option value="pending">Pending</option>
+                                                        <option value="contacted">Contacted</option>
+                                                        <option value="resolved">Resolved</option>
+                                                    </select>
+                                                </td>
+                                                <td style={{ ...tdStyle, fontSize: "12.5px" }}>
+                                                    {enq.created_at ? new Date(enq.created_at).toLocaleDateString() : "—"}
+                                                </td>
+                                                <td style={{ ...tdStyle, position: "relative" }}>
+                                                    <button
+                                                        onClick={() => setOpenMenuId(isMenuOpen ? null : enq.id)}
+                                                        style={{
+                                                            background: "transparent",
+                                                            border: "none",
+                                                            cursor: "pointer",
+                                                            padding: "6px",
+                                                            borderRadius: "6px",
+                                                            color: "#64748B"
+                                                        }}
+                                                    >
+                                                        <IconDots />
+                                                    </button>
+
+                                                    {isMenuOpen && (
+                                                        <div
+                                                            style={{
+                                                                position: "absolute",
+                                                                right: "10px",
+                                                                top: "38px",
+                                                                background: "#fff",
+                                                                border: "1px solid #E2E8F0",
+                                                                borderRadius: "10px",
+                                                                boxShadow: "0 10px 25px -8px rgba(15,23,42,.2)",
+                                                                zIndex: 10,
+                                                                minWidth: "170px",
+                                                                overflow: "hidden"
+                                                            }}
+                                                        >
+                                                            <div
+                                                                onClick={() => {
+                                                                    setExpandedId(isExpanded ? null : enq.id);
+                                                                    setOpenMenuId(null);
+                                                                }}
+                                                                style={menuItemStyle}
+                                                            >
+                                                                {isExpanded ? "Hide Details" : "View Details"}
+                                                            </div>
+                                                            <div
+                                                                onClick={() => toggleEnquiryCalled(enq.id, enq.is_called)}
+                                                                style={menuItemStyle}
+                                                            >
+                                                                {enq.is_called ? "Mark as Not Called" : "Mark as Called"}
+                                                            </div>
+                                                            <div
+                                                                onClick={() => requestDeleteEnquiry(enq.id)}
+                                                                style={{ ...menuItemStyle, color: "#DC2626" }}
+                                                            >
+                                                                Delete
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                            </tr>
+
+                                            {isExpanded && (
+                                                <tr key={`${enq.id}-details`}>
+                                                    <td colSpan="6" style={{ padding: "0 14px 18px", background: "#F8FAFC" }}>
+                                                        <div
+                                                            style={{
+                                                                border: "1px solid #E2E8F0",
+                                                                borderRadius: "12px",
+                                                                padding: "16px",
+                                                                background: "#fff"
+                                                            }}
+                                                        >
+                                                            <div
+                                                                style={{
+                                                                    display: "grid",
+                                                                    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                                                                    gap: "10px",
+                                                                    fontSize: "13px",
+                                                                    color: "#334155"
+                                                                }}
+                                                            >
+                                                                <div>
+                                                                    <strong style={{ color: "#0F172A" }}>WhatsApp:</strong> {enq.whatsapp || "—"}
+                                                                </div>
+                                                                <div>
+                                                                    <strong style={{ color: "#0F172A" }}>Company:</strong> {enq.company_name || "—"}
+                                                                </div>
+                                                                <div>
+                                                                    <strong style={{ color: "#0F172A" }}>Industry:</strong> {enq.industry_type || "—"}
+                                                                </div>
+                                                                <div>
+                                                                    <strong style={{ color: "#0F172A" }}>State:</strong> {enq.state || "—"}
+                                                                </div>
+                                                                <div style={{ gridColumn: "1 / -1" }}>
+                                                                    <strong style={{ color: "#0F172A" }}>Address:</strong> {enq.address || "—"}
+                                                                </div>
+                                                            </div>
+
+                                                            {enq.products && enq.products.length > 0 && (
+                                                                <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "12px" }}>
+                                                                    {enq.products.map((p) => (
+                                                                        <span
+                                                                            key={p}
+                                                                            style={{
+                                                                                background: "#DBEAFE",
+                                                                                color: "#1D4ED8",
+                                                                                fontSize: "11.5px",
+                                                                                fontWeight: 700,
+                                                                                padding: "3px 10px",
+                                                                                borderRadius: "999px"
+                                                                            }}
+                                                                        >
+                                                                            {p}
+                                                                        </span>
+                                                                    ))}
+                                                                </div>
+                                                            )}
+
+                                                            {enq.message && (
+                                                                <p style={{ fontSize: "13.5px", color: "#334155", marginTop: "12px", lineHeight: 1.6 }}>
+                                                                    {enq.message}
+                                                                </p>
+                                                            )}
+
+                                                            <div style={{ marginTop: "12px" }}>
+                                                                <label style={{ fontSize: "12.5px", fontWeight: 600, color: "#334155" }}>
+                                                                    Notes
+                                                                </label>
+                                                                <textarea
+                                                                    rows={2}
+                                                                    value={enquiryNotesDraft[enq.id] ?? ""}
+                                                                    onChange={(e) =>
+                                                                        setEnquiryNotesDraft({ ...enquiryNotesDraft, [enq.id]: e.target.value })
+                                                                    }
+                                                                    style={{
+                                                                        width: "100%",
+                                                                        marginTop: "6px",
+                                                                        padding: "10px 12px",
+                                                                        borderRadius: "8px",
+                                                                        border: "1px solid #E2E8F0",
+                                                                        fontSize: "13.5px",
+                                                                        outline: "none",
+                                                                        resize: "vertical",
+                                                                        boxSizing: "border-box",
+                                                                        fontFamily: "inherit"
+                                                                    }}
+                                                                />
+                                                                <button
+                                                                    onClick={() => saveEnquiryNotes(enq.id)}
+                                                                    disabled={enquirySavingId === enq.id}
+                                                                    style={{
+                                                                        marginTop: "8px",
+                                                                        padding: "7px 16px",
+                                                                        borderRadius: "8px",
+                                                                        border: "none",
+                                                                        fontSize: "13px",
+                                                                        fontWeight: 600,
+                                                                        cursor: enquirySavingId === enq.id ? "not-allowed" : "pointer",
+                                                                        background: "#2563EB",
+                                                                        color: "#fff",
+                                                                        opacity: enquirySavingId === enq.id ? 0.6 : 1
+                                                                    }}
+                                                                >
+                                                                    {enquirySavingId === enq.id ? "Saving..." : "Save Note"}
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             )}
-                                        </div>
-                                        <span style={{ fontSize: "12.5px", color: "#94A3B8" }}>
-                                            {enq.created_at ? new Date(enq.created_at).toLocaleString() : "—"}
-                                        </span>
-                                    </div>
-
-                                    <div style={{ fontSize: "13.5px", color: "#64748B", marginTop: "4px" }}>
-                                        {enq.email} • {enq.phone} {enq.whatsapp ? `• WA: ${enq.whatsapp}` : ""}
-                                    </div>
-
-                                    {(enq.company_name || enq.industry_type || enq.address) && (
-                                        <div style={{ fontSize: "13px", color: "#64748B", marginTop: "6px" }}>
-                                            {enq.company_name && <>Company: {enq.company_name} • </>}
-                                            {enq.industry_type && <>Industry: {enq.industry_type} • </>}
-                                            {enq.address && <>Address: {enq.address}</>}
-                                        </div>
-                                    )}
-
-                                    {enq.products && enq.products.length > 0 && (
-                                        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "10px" }}>
-                                            {enq.products.map((p) => (
-                                                <span
-                                                    key={p}
-                                                    style={{
-                                                        background: "#DBEAFE",
-                                                        color: "#1D4ED8",
-                                                        fontSize: "11.5px",
-                                                        fontWeight: 700,
-                                                        padding: "3px 10px",
-                                                        borderRadius: "999px"
-                                                    }}
-                                                >
-                                                    {p}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    )}
-
-                                    {enq.message && (
-                                        <p style={{ fontSize: "14px", color: "#334155", marginTop: "10px", lineHeight: 1.6 }}>
-                                            {enq.message}
-                                        </p>
-                                    )}
-
-                                    <div
-                                        style={{
-                                            marginTop: "14px",
-                                            paddingTop: "14px",
-                                            borderTop: "1px dashed #E2E8F0",
-                                            display: "flex",
-                                            flexWrap: "wrap",
-                                            gap: "10px",
-                                            alignItems: "center"
-                                        }}
-                                    >
-                                        <select
-                                            value={status}
-                                            onChange={(e) => handleEnquiryStatusChange(enq.id, e.target.value)}
-                                            style={{
-                                                padding: "8px 12px",
-                                                borderRadius: "8px",
-                                                border: "1px solid #E2E8F0",
-                                                fontSize: "13px",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                                background: "#fff"
-                                            }}
-                                        >
-                                            <option value="pending">Pending</option>
-                                            <option value="contacted">Contacted</option>
-                                            <option value="resolved">Resolved</option>
-                                        </select>
-
-                                        <button
-                                            onClick={() => toggleEnquiryCalled(enq.id, enq.is_called)}
-                                            style={{
-                                                padding: "8px 14px",
-                                                borderRadius: "8px",
-                                                border: "1px solid #E2E8F0",
-                                                fontSize: "13px",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                                background: enq.is_called ? "#DCFCE7" : "#fff",
-                                                color: enq.is_called ? "#15803D" : "#334155"
-                                            }}
-                                        >
-                                            {enq.is_called ? "Mark as Not Called" : "Mark as Called"}
-                                        </button>
-
-                                        <button
-                                            onClick={() => requestDeleteEnquiry(enq.id)}
-                                            style={{
-                                                padding: "8px 14px",
-                                                borderRadius: "8px",
-                                                border: "1px solid #FECACA",
-                                                fontSize: "13px",
-                                                fontWeight: 600,
-                                                cursor: "pointer",
-                                                background: "#fff",
-                                                color: "#DC2626"
-                                            }}
-                                        >
-                                            Delete
-                                        </button>
-                                    </div>
-
-                                    <div style={{ marginTop: "12px" }}>
-                                        <label style={{ fontSize: "12.5px", fontWeight: 600, color: "#334155" }}>
-                                            Notes
-                                        </label>
-                                        <textarea
-                                            rows={2}
-                                            value={enquiryNotesDraft[enq.id] ?? ""}
-                                            onChange={(e) =>
-                                                setEnquiryNotesDraft({ ...enquiryNotesDraft, [enq.id]: e.target.value })
-                                            }
-                                            style={{
-                                                width: "100%",
-                                                marginTop: "6px",
-                                                padding: "10px 12px",
-                                                borderRadius: "8px",
-                                                border: "1px solid #E2E8F0",
-                                                fontSize: "13.5px",
-                                                outline: "none",
-                                                resize: "vertical",
-                                                boxSizing: "border-box",
-                                                fontFamily: "inherit"
-                                            }}
-                                        />
-                                        <button
-                                            onClick={() => saveEnquiryNotes(enq.id)}
-                                            disabled={enquirySavingId === enq.id}
-                                            style={{
-                                                marginTop: "8px",
-                                                padding: "7px 16px",
-                                                borderRadius: "8px",
-                                                border: "none",
-                                                fontSize: "13px",
-                                                fontWeight: 600,
-                                                cursor: enquirySavingId === enq.id ? "not-allowed" : "pointer",
-                                                background: "#2563EB",
-                                                color: "#fff",
-                                                opacity: enquirySavingId === enq.id ? 0.6 : 1
-                                            }}
-                                        >
-                                            {enquirySavingId === enq.id ? "Saving..." : "Save Note"}
-                                        </button>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                                        </>
+                                    );
+                                })}
+                            </tbody>
+                        </table>
                     </div>
                 )}
             </div>
