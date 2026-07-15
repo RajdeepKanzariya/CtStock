@@ -107,7 +107,7 @@ export default function ProductDetail() {
                 }
             `}</style>
 
-            {/* ============ TOP HERO — logo, title, desc, usages, features, demo ============ */}
+            {/* ============ TOP HERO — logo, title, desc, long desc, demo ============ */}
             <section
                 style={{
                     width: "100%",
@@ -156,7 +156,7 @@ export default function ProductDetail() {
                         )}
                     </div>
 
-                    {/* Title + desc + demo button */}
+                    {/* Title + desc + long desc + demo button */}
                     <div style={{ flex: "1 1 340px", minWidth: "260px" }}>
                         <p style={{ margin: 0, color: accent, fontSize: "13px", fontWeight: 700, letterSpacing: "1px", textTransform: "uppercase" }}>
                             {product.name}
@@ -169,9 +169,18 @@ export default function ProductDetail() {
                                 {product.short_description}
                             </p>
                         )}
+
+                        {product.long_description && (
+                            <p style={{ marginTop: "16px", fontSize: "15.5px", lineHeight: 1.9, color: "#475569", maxWidth: "100%", whiteSpace: "pre-line" }}>
+                                {product.long_description}
+                            </p>
+                        )}
+
                     <a
                         onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
                         style={{
+                            display: "inline-flex",
+                            marginTop: "22px",
                             background: accent,
                             color: "#fff",
                             padding: "14px 30px",
@@ -187,12 +196,21 @@ export default function ProductDetail() {
                     </a>
                     </div>
                 </div>
+            </section>
 
-                {/* Usages + Features */}
+            {/* ============ USAGES + FEATURES ============ */}
+            <section
+                style={{
+                    width: "100%",
+                    padding: "clamp(50px, 6vw, 70px) 6%",
+                    background: "#fff",
+                    boxSizing: "border-box"
+                }}
+            >
                 <div
                     style={{
                         maxWidth: "1100px",
-                        margin: "clamp(36px, 5vw, 56px) auto 0",
+                        margin: "0 auto",
                         display: "grid",
                         gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
                         gap: "24px"
@@ -236,27 +254,6 @@ export default function ProductDetail() {
                                 boxShadow: "0 30px 70px -25px rgba(0,0,0,.6)"
                             }}
                         />
-                    </div>
-                </section>
-            )}
-
-            {/* ============ LONG DESCRIPTION ============ */}
-            {product.long_description && (
-                <section
-                    style={{
-                        width: "100%",
-                        padding: "clamp(50px, 6vw, 70px) 6%",
-                        background: "#fff",
-                        boxSizing: "border-box"
-                    }}
-                >
-                    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
-                        <h2 style={{ margin: 0, fontSize: "clamp(22px, 2.6vw, 28px)", fontWeight: 800, color: "#0F172A" }}>
-                            About {product.name}
-                        </h2>
-                        <p style={{ marginTop: "16px", fontSize: "15.5px", lineHeight: 1.9, color: "#475569", whiteSpace: "pre-line" }}>
-                            {product.long_description}
-                        </p>
                     </div>
                 </section>
             )}
@@ -350,7 +347,7 @@ export default function ProductDetail() {
                 </p>
 
                 <div className="pd-cta-row" style={{ display: "flex", gap: "14px", justifyContent: "center", marginTop: "24px", flexWrap: "wrap" }}>
-                    <a
+                        <a
                             onClick={() => navigate("/enquiry", { state: { productName: product.name } })}
                             style={{
                                 display: "inline-flex",
