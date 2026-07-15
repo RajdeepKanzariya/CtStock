@@ -242,8 +242,8 @@ function ProductRow({ product, onClick }) {
       {/* Logo */}
       <div
         style={{
-          width: "72px",
-          height: "72px",
+          width: "200px",
+          height: "80px",
           minWidth: "72px",
           display: "flex",
           alignItems: "center",
