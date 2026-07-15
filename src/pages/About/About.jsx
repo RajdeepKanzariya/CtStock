@@ -18,7 +18,7 @@ export default function About() {
             <MissionVision />
             <WhyChooseUs />
             <CoreValues />
-            <OurTeam />
+            {/* <OurTeam /> */}
             <Process />
             <Counter />
             <OurClients />
